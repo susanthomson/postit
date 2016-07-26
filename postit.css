@@ -7,35 +7,35 @@ div.noteBoard {
     z-index: 0;
 }
 
-div.yellowNote {
+/* 
+	yellow	ffff90
+	pink	fcc3c9
+	blue	49F1F6
+	green	caed9d
+*/
+
+div.cffff90Note {
 	position: absolute;
 	background-image: url("yellowPostit.png");
 	width: 297px;
 	height: 298px;
 }
 
-div.oldYellowNote {
-	position: absolute;
-	background-color: lightyellow;
-    width: 250px;
-    height: 250px;
-}
-
-div.pinkNote {
+div.cfcc3c9Note {
 	position: absolute;
 	background-image: url("pinkPostit.png");
 	width: 297px;
 	height: 298px;
 }
 
-div.blueNote {
+div.c49F1F6Note {
 	position: absolute;
 	background-image: url("bluePostit.png");
 	width: 297px;
 	height: 298px;
 }
 
-div.greenNote {
+div.ccaed9dNote {
 	position: absolute;
 	background-image: url("greenPostit.png");
 	width: 297px;
@@ -54,7 +54,7 @@ div.menuButton {
 div.menu {
     display: none;
     position: absolute;
-    height: 20px;
+    height: 30px;
     right: 5px;
     top: 25px;
     background-color: #f9f9f9;
@@ -67,32 +67,34 @@ div.menuItem {
 	display: inline-block;
 }
 
-div.yellowBox {
+/* colour select boxes */
+
+div.cffff90Box {
 	display: inline-block;
 	width: 30px;
-	height: 20px;
-	background-color: lightyellow;
+	height: 30px;
+	background-color: #ffff90;
 }
 
-div.pinkBox {
+div.cfcc3c9Box {
 	display: inline-block;
 	width: 30px;
-	height: 20px;
-	background-color: lightpink;
+	height: 30px;
+	background-color: #fcc3c9;
 }
 
-div.blueBox {
+div.c49F1F6Box {
 	display: inline-block;
 	width: 30px;
-	height: 20px;
-	background-color: lightblue;
+	height: 30px;
+	background-color: #49F1F6;
 }
 
-div.greenBox {
+div.ccaed9dBox {
 	display: inline-block;
 	width: 30px;
-	height: 20px;
-	background-color: lightgreen;
+	height: 30px;
+	background-color: #caed9d;
 }
 
 textarea.edNote {
@@ -103,4 +105,5 @@ textarea.edNote {
 	border-width: 0px;
 	padding: 0px;
 	resize: none;
+	font-size: 20pt;
 }

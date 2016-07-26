@@ -13,6 +13,7 @@ var noteBoard
 var topZ = 0;
 
 window.onload = function() {
+	console.log(document.styleSheets);
 	noteBoard = document.createElement("div");
 	noteBoard.className = "noteBoard";
 	document.body.appendChild(noteBoard);
@@ -21,7 +22,7 @@ window.onload = function() {
 function createNote() {
 	topZ++;
     var note = document.createElement("div");
-    note.className = "yellowNote";
+    note.className = "cffff90Note";
     note.draggable = "true";
     note.style.zIndex = topZ;
     var mouseX;
@@ -70,7 +71,7 @@ function createNote() {
     delItem.className = "menuItem";
     var trashCan = document.createElement("img");
     trashCan.src = "trash.png";
-    trashCan.style.height = "20px";
+    trashCan.style.height = "30px";
     delItem.appendChild(trashCan);
     delItem.onclick = function () {
     	noteBoard.removeChild(note);
@@ -79,18 +80,19 @@ function createNote() {
     var colourItem = document.createElement("div");
     colourItem.className = "menuItem";
     var changeColour = function (event, colour) {
-    	event.target.parentNode.parentNode.parentNode.className = colour + "Note";
+    	event.target.parentNode.parentNode.parentNode.className = "c" + colour + "Note";
     	event.target.parentNode.parentNode.style.display = "none";
     }
     
     //set up colour change boxes for menu
-    var noteColours = ["yellow", "pink", "blue", "green"];
+    //var noteColours = ["yellow", "pink", "blue", "green"];
+    var noteColours = ["ffff90", "fcc3c9", "49F1F6", "caed9d"];
     var colourBoxes = [];
     for (var i = 0; i < noteColours.length; i++) {
     	colourBoxes[i] = document.createElement("div");
-    	colourBoxes[i].className = noteColours[i] + "Box";
+    	colourBoxes[i].className = "c" + noteColours[i] + "Box";
     	colourBoxes[i].onclick = function (event) {
-    		var colour = event.target.className.slice(0,event.target.className.length-3);
+    		var colour = event.target.className.slice(1,event.target.className.length-3);
         	changeColour(event, colour);
         }
     }
