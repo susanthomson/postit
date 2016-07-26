@@ -9,6 +9,13 @@ div.noteBoard {
 
 div.yellowNote {
 	position: absolute;
+	background-image: url("yellowPostit.png");
+	width: 297px;
+	height: 298px;
+}
+
+div.oldYellowNote {
+	position: absolute;
 	background-color: lightyellow;
     width: 250px;
     height: 250px;
@@ -16,23 +23,23 @@ div.yellowNote {
 
 div.pinkNote {
 	position: absolute;
-	background-color: lightpink;
-    width: 250px;
-    height: 250px;
+	background-image: url("pinkPostit.png");
+	width: 297px;
+	height: 298px;
 }
 
 div.blueNote {
 	position: absolute;
-	background-color: lightblue;
-    width: 250px;
-    height: 250px;
+	background-image: url("bluePostit.png");
+	width: 297px;
+	height: 298px;
 }
 
 div.greenNote {
 	position: absolute;
-	background-color: lightgreen;
-    width: 250px;
-    height: 250px;
+	background-image: url("greenPostit.png");
+	width: 297px;
+	height: 298px;
 }
 
 div.menuButton {
@@ -91,8 +98,9 @@ div.greenBox {
 textarea.edNote {
 	width: 100%;
 	height: 100%;
-	background-color: inherit;
+	background: transparent;
 	border-style: none;
 	border-width: 0px;
 	padding: 0px;
+	resize: none;
 }
