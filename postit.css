@@ -42,50 +42,48 @@ div.menuButton {
     height: 20px;
 	right: 5px;
 	top: 5px;
-	display: inline-block;
 }
 
 div.menu {
     display: none;
     position: absolute;
+    height: 20px;
     right: 5px;
     top: 25px;
     background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
 }
 
 div.menuItem {
-	width: 160px;
 	height: 20px;
-	border: 1px solid black;
 	padding: 0px 0px;
+	display: inline-block;
 }
 
 div.yellowBox {
 	display: inline-block;
-	width: 40px;
+	width: 30px;
 	height: 20px;
 	background-color: lightyellow;
 }
 
 div.pinkBox {
 	display: inline-block;
-	width: 40px;
+	width: 30px;
 	height: 20px;
 	background-color: lightpink;
 }
 
 div.blueBox {
 	display: inline-block;
-	width: 40px;
+	width: 30px;
 	height: 20px;
 	background-color: lightblue;
 }
 
 div.greenBox {
 	display: inline-block;
-	width: 40px;
+	width: 30px;
 	height: 20px;
 	background-color: lightgreen;
 }

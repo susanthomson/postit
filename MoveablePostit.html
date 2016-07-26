@@ -68,7 +68,11 @@ function createNote() {
     
     var delItem = document.createElement("div");
     delItem.className = "menuItem";
-    delItem.innerHTML= "remove note"
+    var trashCan = document.createElement("img");
+    trashCan.src = "trash.png";
+    trashCan.style.height = "20px";
+    //delItem.innerHTML = "remove note"
+    delItem.appendChild(trashCan);
     delItem.onclick = function () {
     	noteBoard.removeChild(note);
     }
