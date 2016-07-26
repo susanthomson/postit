@@ -9,6 +9,8 @@
 <script>
 
 var noteBoard
+//record z-index of note on top, will break after ~200m interactions
+var topZ = 0;
 
 window.onload = function() {
 	noteBoard = document.createElement("div");
@@ -17,21 +19,25 @@ window.onload = function() {
 }
 
 function createNote() {
+	topZ++;
     var note = document.createElement("div");
     note.className = "note";
     note.draggable = "true";
+    note.style.zIndex = topZ;
     var mouseX;
     var mouseY;
     
     //note text
 	var textArea = document.createElement("textarea");
-	textArea.className = "edNote";
+    textArea.className = "edNote";
     note.appendChild(textArea);
     
     //move note
-    //TODO: last moved goes to top - set z index
     //TODO: handle dragging out of board
     note.ondragstart = function(event) {
+    	//move note to top
+    	topZ++;
+    	event.target.style.zIndex = topZ;
         //record mouse position relative to topleft of note
         //need to remove "px" from style values
     	mouseX = event.pageX - event.target.style.left.slice(0,event.target.style.left.length-2);

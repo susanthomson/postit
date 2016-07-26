@@ -1,8 +1,10 @@
 div.noteBoard {
+	position: relative;
 	background-color: lightblue;
     width: 1000px;
     height: 800px;
     border: 1px solid blue;
+    z-index: 0;
 }
 
 div.note {
@@ -10,7 +12,6 @@ div.note {
 	background-color: lightyellow;
     width: 250px;
     height: 250px;
-    border: 1px solid gold;
 }
 
 button.delButton {
