@@ -60,7 +60,7 @@ function createNote() {
     var delItem = document.createElement("div");
     delItem.className = "menuItem";
     var trashCan = document.createElement("img");
-    trashCan.src = "trash.png";
+    trashCan.src = "assets/trash.png";
     trashCan.style.height = "30px";
     delItem.appendChild(trashCan);
     delItem.onclick = function () {

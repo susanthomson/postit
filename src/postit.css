@@ -16,28 +16,28 @@ div.noteBoard {
 
 div.cffff90Note {
 	position: absolute;
-	background-image: url("yellowPostit.png");
+	background-image: url("../assets/yellowPostit.png");
 	width: 297px;
 	height: 298px;
 }
 
 div.cfcc3c9Note {
 	position: absolute;
-	background-image: url("pinkPostit.png");
+	background-image: url("../assets/pinkPostit.png");
 	width: 297px;
 	height: 298px;
 }
 
 div.c49F1F6Note {
 	position: absolute;
-	background-image: url("bluePostit.png");
+	background-image: url("../assets/bluePostit.png");
 	width: 297px;
 	height: 298px;
 }
 
 div.ccaed9dNote {
 	position: absolute;
-	background-image: url("greenPostit.png");
+	background-image: url("../assets/greenPostit.png");
 	width: 297px;
 	height: 298px;
 }
