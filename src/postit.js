@@ -1,4 +1,4 @@
-var noteBoard
+var noteBoard;
 //record z-index of note on top, will break after ~200m interactions
 var topZ = 0;
 
@@ -7,12 +7,13 @@ window.onload = function() {
     noteBoard = document.createElement("div");
     noteBoard.className = "noteBoard";
     document.body.appendChild(noteBoard);
-}
+};
 
 function createNote() {
     topZ++;
     var note = document.createElement("div");
-    note.className = "cffff90Note";
+    note.colour = "yellow";
+    note.className = "note yellowNote";
     note.draggable = "true";
     note.style.zIndex = topZ;
     var mouseX;
@@ -33,11 +34,11 @@ function createNote() {
         //need to remove "px" from style values
         mouseX = event.pageX - event.target.style.left.slice(0,event.target.style.left.length-2);
         mouseY = event.pageY - event.target.style.top.slice(0,event.target.style.top.length-2);
-    }
+    };
     note.ondragend = function(event) {
         event.target.style.left = (event.pageX - mouseX) + "px";
         event.target.style.top = (event.pageY - mouseY) + "px";
-    }
+    };
 
     //note menu button
     var menuButton = document.createElement("div");
@@ -50,7 +51,7 @@ function createNote() {
             menu.style.display = "none";
         }
         else menu.style.display = "block";
-    }
+    };
 
     //note menu
     var menu = document.createElement("div");
@@ -65,30 +66,27 @@ function createNote() {
     delItem.appendChild(trashCan);
     delItem.onclick = function () {
         noteBoard.removeChild(note);
-    }
+    };
 
     var colourItem = document.createElement("div");
     colourItem.className = "menuItem";
-    var changeColour = function (event, colour) {
-        event.target.parentNode.parentNode.parentNode.className = "c" + colour + "Note";
-        event.target.parentNode.parentNode.style.display = "none";
-    }
 
     //set up colour change boxes for menu
-    //var noteColours = ["yellow", "pink", "blue", "green"];
-    var noteColours = ["ffff90", "fcc3c9", "49F1F6", "caed9d"];
-    var colourBoxes = [];
-    for (var i = 0; i < noteColours.length; i++) {
-        colourBoxes[i] = document.createElement("div");
-        colourBoxes[i].className = "c" + noteColours[i] + "Box";
-        colourBoxes[i].onclick = function (event) {
-            var colour = event.target.className.slice(1,event.target.className.length-3);
-            changeColour(event, colour);
-        }
-    }
-    for (var i = 0; i < colourBoxes.length; i++) {
-        colourItem.appendChild(colourBoxes[i]);
-    }
+    var noteColours = ["yellow", "pink", "blue", "green"];
+
+    var colourBoxes = _.map(noteColours, function(value) {
+        var box = document.createElement("div");
+        box.className = "colourBox " + value + "Box";
+        box.onclick = function (event) {
+            event.target.parentNode.parentNode.parentNode.className = "note " + value + "Note";
+            event.target.parentNode.parentNode.style.display = "none";
+        };
+        return box;
+    });
+
+    _.forEach(colourBoxes, function(value) {
+       colourItem.appendChild(value);
+    });
 
     menu.appendChild(colourItem);
     menu.appendChild(delItem);
