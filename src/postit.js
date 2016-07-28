@@ -1,99 +1,156 @@
-var noteBoard;
+var notes = {};
+var noteID = 0;
 //record z-index of note on top, will break after ~200m interactions
-var topZ = 0;
+var topStackOrder = 0;
 
 window.onload = function() {
-    console.log(document.styleSheets);
-    noteBoard = document.createElement("div");
-    noteBoard.className = "noteBoard";
+    var noteBoard = document.createElement("div");
+    noteBoard.id = "noteBoard";
     document.body.appendChild(noteBoard);
 };
 
-function createNote() {
-    topZ++;
-    var note = document.createElement("div");
-    note.colour = "yellow";
-    note.className = "note yellowNote";
-    note.draggable = "true";
-    note.style.zIndex = topZ;
-    var mouseX;
-    var mouseY;
+function generateNote() {
+    noteID++;
+    topStackOrder++;
+    notes["note" + noteID] = new Note(noteID, topStackOrder);
+    drawNote(notes["note" + noteID]);
+}
 
-    //note text
-    var textArea = document.createElement("textarea");
-    textArea.className = "edNote";
-    note.appendChild(textArea);
+function deleteNote (note) {
+    delete notes["note" + note.id];
+}
 
-    //move note
-    //TODO: handle dragging out of board
-    note.ondragstart = function(event) {
-        //bring note to top
-        topZ++;
-        event.target.style.zIndex = topZ;
-        //record mouse position relative to topleft of note
-        //need to remove "px" from style values
-        mouseX = event.pageX - event.target.style.left.slice(0,event.target.style.left.length-2);
-        mouseY = event.pageY - event.target.style.top.slice(0,event.target.style.top.length-2);
-    };
-    note.ondragend = function(event) {
-        event.target.style.left = (event.pageX - mouseX) + "px";
-        event.target.style.top = (event.pageY - mouseY) + "px";
-    };
+function Note(noteID, stackOrder){
+    this.id = noteID;
+    this.colour = "yellow";
+    this.text = "hello";
+    this.x = 0;
+    this.y = 0;
+    this.stackOrder = stackOrder;
+}
 
-    //note menu button
-    var menuButton = document.createElement("div");
-    menuButton.className = "menuButton";
-    menuButton.onclick = function() {
-        //bring note to top, toggle menu visibility
-        topZ++;
-        note.style.zIndex = topZ;
-        if(menu.style.display === "block") {
-            menu.style.display = "none";
-        }
-        else menu.style.display = "block";
-    };
+Note.prototype.changeColour = function(colour) {
+    this.colour = colour;
+    drawNote(this);
+};
 
-    //note menu
-    var menu = document.createElement("div");
-    menu.className = "menu";
-    note.appendChild(menu);
+Note.prototype.move = function (x,y) {
+    this.x = x;
+    this.y = y;
+    topStackOrder++;
+    this.stackOrder = topStackOrder;
+    drawNote(this);
+};
 
-    var delItem = document.createElement("div");
-    delItem.className = "menuItem";
-    var trashCan = document.createElement("img");
-    trashCan.src = "assets/trash.png";
-    trashCan.style.height = "30px";
-    delItem.appendChild(trashCan);
-    delItem.onclick = function () {
-        noteBoard.removeChild(note);
-    };
+Note.prototype.editText = function (text) {
+    this.text = text;
+    drawNote(this);
+};
 
-    var colourItem = document.createElement("div");
-    colourItem.className = "menuItem";
+function drawNote(note) {
 
-    //set up colour change boxes for menu
-    var noteColours = ["yellow", "pink", "blue", "green"];
+    //console.log(note);
+    //console.log(notes);
 
-    var colourBoxes = _.map(noteColours, function(value) {
-        var box = document.createElement("div");
-        box.className = "colourBox " + value + "Box";
-        box.onclick = function (event) {
-            event.target.parentNode.parentNode.parentNode.className = "note " + value + "Note";
-            event.target.parentNode.parentNode.style.display = "none";
+    var notediv = getNote(note);
+    //colour
+    notediv.className = "note " + note.colour + "Note";
+    //text
+    notediv.textArea.value = note.text;
+    //position
+    notediv.style.left = note.x + "px";
+    notediv.style.top = note.y + "px";
+    notediv.style.zIndex = note.stackOrder;
+}
+
+function getNote(note) {
+    var notediv = document.getElementById("note" + note.id);
+    if (notediv === null) {
+        notediv = document.createElement("div");
+        notediv.id = "note" + note.id;
+        notediv.style.zIndex = note.stackOrder;
+
+        //text
+        notediv.textArea = document.createElement("textarea");
+        notediv.textArea.className = "edNote";
+        notediv.textArea.onblur = function(event) {
+            note.editText(event.target.value);
         };
-        return box;
-    });
+        notediv.appendChild(notediv.textArea);
 
-    _.forEach(colourBoxes, function(value) {
-       colourItem.appendChild(value);
-    });
+        //moving
+        notediv.draggable = true;
+        notediv.ondragstart = function(event) {
+            //record mouse position relative to topleft
+            //data format: moving note id + x offset + y offset
+            var data = note.id + " " + (event.pageX - note.x) + " " + (event.pageY - note.y);
+            event.dataTransfer.setData("text", data);
+        };
+        document.getElementById("noteBoard").ondrop = function (event) {
+            var data = event.dataTransfer.getData("text");
+            var notePosition = _.zipObject(["id", "x", "y"], data.split(" "));
+            notes["note" + notePosition.id].move(event.pageX - notePosition.x, event.pageY - notePosition.y);
+            event.preventDefault();
+        };
+        //drop event only fires if dragover default is cancelled so cancel it here
+        document.getElementById("noteBoard").ondragover = function (event) {
+            event.preventDefault();
+        };
 
-    menu.appendChild(colourItem);
-    menu.appendChild(delItem);
+        //menu
+        //note menu button
+        var menuButton = document.createElement("div");
+        menuButton.className = "menuButton";
+        menuButton.onclick = function() {
+            if(menu.style.display === "block") {
+                menu.style.display = "none";
+            }
+            else menu.style.display = "block";
+        };
+        notediv.appendChild(menuButton);
 
-    note.appendChild(menuButton);
+        //note menu
+        var menu = document.createElement("div");
+        menu.className = "menu";
+        notediv.appendChild(menu);
 
-    noteBoard.appendChild(note);
-    note.style.left = note.offsetLeft;
-    note.style.top = note.offsetTop;
+        //delete menu item
+        delItem = document.createElement("div");
+        delItem.className = "menuItem";
+        trashCan = document.createElement("img");
+        trashCan.src = "assets/trash.png";
+        trashCan.style.height = "30px";
+        delItem.appendChild(trashCan);
+        delItem.onclick = function () {
+            document.getElementById("noteBoard").removeChild(document.getElementById("note" + note.id));
+            deleteNote(note);
+        };
+        menu.appendChild(delItem);
+
+        //colour change menu item
+        colourItem = document.createElement("div");
+        colourItem.className = "menuItem";
+
+        //set up colour change boxes for menu
+        var noteColours = ["yellow", "pink", "blue", "green"];
+
+        colourBoxes = _.map(noteColours, function(value) {
+            var box = document.createElement("div");
+            box.className = "colourBox " + value + "Box";
+            box.onclick = function (event) {
+                note.changeColour(value);
+                menu.style.display = "none";
+            };
+            return box;
+        });
+
+        _.forEach(colourBoxes, function(value) {
+            colourItem.appendChild(value);
+        });
+
+        menu.appendChild(colourItem);
+
+        document.getElementById("noteBoard").appendChild(notediv);
+    }
+    return notediv;
 }
